@@ -19,7 +19,6 @@ public	void	OnPluginStart()	{
 	
 	name_storage		=	RegClientCookie("keep_player_name",				"Keeps The Players Name",	CookieAccess_Private);
 	force_name_storage	=	RegClientCookie("keep_player_name_forcename",	"The clients forced name",	CookieAccess_Private);
-	HookEvent("player_changename",	Event_PlayerNameChange);
 	
 	RegAdminCmd("sm_forcename",			ForceName,			ADMFLAG_SLAY,	"Force a clients name");
 	RegAdminCmd("sm_removeforcename",	RemoveForceName,	ADMFLAG_SLAY,	"Remove a clients forced name");
@@ -52,8 +51,7 @@ void	cookies(int client)	{
 	}
 }
 
-Action	Event_PlayerNameChange(Event event,	const char[] name,	bool dontBroadcast)	{
-	int	client	=	GetClientOfUserId(event.GetInt("userid"));
+public	void	OnClientSettingsChanged(int client)	{
 	char	cookie_storedname[256],
 			cookie_forcedname[256];
 	GetClientCookie(client,	name_storage,		cookie_storedname,	sizeof(cookie_storedname));
@@ -63,7 +61,6 @@ Action	Event_PlayerNameChange(Event event,	const char[] name,	bool dontBroadcast
 		SetClientName(client,	cookie_storedname);
 	else if(!StrEqual(cookie_forcedname,	""))
 		SetClientName(client,	cookie_forcedname);
-	return	Plugin_Handled;
 }
 
 Action	ForceName(int client,	int args)	{
