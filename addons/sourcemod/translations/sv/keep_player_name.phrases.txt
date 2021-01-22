@@ -1,0 +1,35 @@
+"Phrases"
+{
+	"keep_player_name_forcename_usage"
+	{
+		"en"		"Användning: sm_forcename <#userid|mål namn> <nytt namn>"
+	}
+	
+	"keep_player_name_forcename_set"
+	{
+		"#format"	"{1:s},{2:s}"
+		"en"		"Tvingade namn {2} för {1}"
+	}
+	
+	"keep_player_name_forcename_usage_remove"
+	{
+		"en"		"Användning: sm_removeforcename <#userid|mål namn>"
+	}
+	
+	"keep_player_name_forcename_set_remove"
+	{
+		"#format"	"{1:s}"
+		"en"		"Du har återställt namnet för {1}"
+	}
+	
+	"keep_player_name_clearname_usage"
+	{
+		"en"		"Användning: sm_clearname <#userid|mål namn>"
+	}
+	
+	"keep_player_name_clearname_set"
+	{
+		"#format"	"{1:s}"
+		"en"		"Rensade det sparade spelar namnet för {1}"
+	}
+}

@@ -1,0 +1,35 @@
+"Phrases"
+{
+	"keep_player_name_forcename_usage"
+	{
+		"en"		"Usage: sm_forcename <#userid|target name> <new name>"
+	}
+	
+	"keep_player_name_forcename_set"
+	{
+		"#format"	"{1:s},{2:s}"
+		"en"		"Forced name of {1} to {2}"
+	}
+	
+	"keep_player_name_forcename_usage_remove"
+	{
+		"en"		"Usage: sm_removeforcename <#userid|target name>"
+	}
+	
+	"keep_player_name_forcename_set_remove"
+	{
+		"#format"	"{1:s}"
+		"en"		"You've reset the name for {1}"
+	}
+	
+	"keep_player_name_clearname_usage"
+	{
+		"en"		"Usage: sm_clearname <#userid|target name>"
+	}
+	
+	"keep_player_name_clearname_set"
+	{
+		"#format"	"{1:s}"
+		"en"		"Cleared the kept player name storage for {1}"
+	}
+}
