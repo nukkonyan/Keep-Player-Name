@@ -12,7 +12,7 @@ public	Plugin	myinfo	=	{
 	name		=	"[ANY] Keep Player Name",
 	author		=	"Tk /id/Teamkiller324",
 	description	=	"Stores the player name to make sure player stays within the same name",
-	version		=	"1.1.1",
+	version		=	"1.1.2",
 	url			=	"https://steamcommunity.com/id/Teamkiller324"
 }
 
@@ -72,14 +72,17 @@ public	void	OnClientDisconnect(int client)	{
 	setcookies(client,	false);
 }
 
-//Disabled due to not functioning correctly and spamming errors instead
-//public	void	OnClientSettingsChanged(int client)	{
-//	if(IsClientInGame(client) && !IsFakeClient(client))	{
-//		if(GetClientTeam(client) > 0)	{
-//			setcookies(client,	true);
-//		}
-//	}
-//}
+public	void	OnClientSettingsChanged(int client)	{
+	CreateTimer(0.5,	ClientSettingsChangeTimer,	client);
+}
+
+Action	ClientSettingsChangeTimer(Handle timer,	any client)	{
+	if(IsClientInGame(client) && !IsFakeClient(client))	{
+		if(GetClientTeam(client) > 0)	{
+			setcookies(client,	true);
+		}
+	}
+}
 
 void	setcookies(int client,	bool connect)	{
 	if(IsValidClient(client))	{
