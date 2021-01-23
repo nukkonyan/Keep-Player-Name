@@ -16,19 +16,25 @@
 		"en"		"You've reset the name for yourself"
 	}
 	
+	"keep_player_name_forcename_reset_target"
+	{
+		"#format"	"{1:s}"
+		"en"		"You've reset the name for {1}"
+	}
+	
 	"keep_player_name_clearname_usage"
 	{
 		"en"		"Usage: sm_clearname <#userid|target name>"
 	}
 	
-	"keep_player_name_clearname_set"
-	{
-		"#format"	"{1:s}"
-		"en"		"Cleared the kept player name storage for {1}"
-	}
-	
 	"keep_player_name_clearname_reset"
 	{
 		"en"		"Cleared the kept player name storage for yourself"
+	}
+	
+	"keep_player_name_clearname_reset_target"
+	{
+		"#format"	"{1:s}"
+		"en"		"Cleared the kept player name storage for {1}"
 	}
 }

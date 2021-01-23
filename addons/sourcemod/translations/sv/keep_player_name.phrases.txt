@@ -16,19 +16,25 @@
 		"en"		"Du har återställt namnet för dig själv"
 	}
 	
+	"keep_player_name_forcename_reset_target"
+	{
+		"#format"	"{1:s}"
+		"en"		"Du har återställt namnet för {1}"
+	}
+	
 	"keep_player_name_clearname_usage"
 	{
 		"en"		"Användning: sm_clearname <#userid|mål namn>"
 	}
 	
-	"keep_player_name_clearname_set"
-	{
-		"#format"	"{1:s}"
-		"en"		"Rensade det sparade spelar namnet för {1}"
-	}
-	
 	"keep_player_name_clearname_reset"
 	{
 		"en"		"Rensade det sparade spelar namnet för dig själv"
+	}
+	
+	"keep_player_name_clearname_reset_target"
+	{
+		"#format"	"{1:s}"
+		"en"		"Rensade det sparade spelar namnet för {1}"
 	}
 }

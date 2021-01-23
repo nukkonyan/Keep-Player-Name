@@ -7,12 +7,14 @@
 
 Handle	name_storage,
 		force_name_storage;
+		
+bool	EraseName[MAXPLAYERS+1]	=	false;
 
 public	Plugin	myinfo	=	{
 	name		=	"[ANY] Keep Player Name",
 	author		=	"Tk /id/Teamkiller324",
 	description	=	"Stores the player name to make sure player stays within the same name",
-	version		=	"1.1.2",
+	version		=	"1.1.3",
 	url			=	"https://steamcommunity.com/id/Teamkiller324"
 }
 
@@ -62,14 +64,20 @@ Action	suppress_NameChange(UserMsg msg_id,	Handle bf,	const players[],	int playe
 
 public	void	OnClientCookiesCached(int client)	{
 	setcookies(client,	true);
+	if(!IsFakeClient(client))
+		EraseName[client]	=	false;
 }
 
 public	void	OnClientPutInServer(int client)	{
 	setcookies(client,	true);
+	if(!IsFakeClient(client) && IsClientInGame(client))
+		EraseName[client]	=	false;
 }
 
 public	void	OnClientDisconnect(int client)	{
 	setcookies(client,	false);
+	if(!IsFakeClient(client))
+		EraseName[client]	=	false;
 }
 
 public	void	OnClientSettingsChanged(int client)	{
@@ -93,8 +101,10 @@ void	setcookies(int client,	bool connect)	{
 		GetClientCookie(client,	force_name_storage,	cookie_forcedname,	sizeof(cookie_forcedname));
 		GetClientInfo(client,	"name",	clientname,	sizeof(clientname));
 		
-		if(StrEqual(cookie_storedname,	""))
-			SetClientCookie(client,	name_storage,	clientname);
+		if(StrEqual(cookie_storedname,	""))	{
+			if(EraseName[client] == false)
+				SetClientCookie(client,	name_storage,	clientname);
+		}
 
 		if(!StrEqual(cookie_forcedname,	""))	{
 			if(connect)
@@ -120,6 +130,37 @@ Action	ForceName(int client,	int args)	{
 			SetClientCookie(client,	force_name_storage,	"");
 			
 			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_forcename_reset");
+			return	Plugin_Handled;
+		}
+		case	1:	{
+			char	arg1			[256],
+					target_name		[MAX_TARGET_LENGTH];
+			int		target_list		[MAXPLAYERS],
+					target_count;
+			bool	tn_is_ml;
+			
+			GetCmdArg(1,	arg1,	sizeof(arg1));
+			
+			if((target_count = ProcessTargetString(
+				arg1,
+				client,
+				target_list,
+				MAXPLAYERS,
+				COMMAND_FILTER_CONNECTED,
+				target_name,
+				sizeof(target_name),
+				tn_is_ml)) <= 0)
+			{
+				ReplyToTargetError(client, target_count);
+				return Plugin_Handled;
+			}
+			
+			for(int i = 0; i < target_count; i++)	{
+				int	target	=	target_list[i];
+				SetClientCookie(target,	force_name_storage,	"");
+			}
+			
+			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_forcename_reset_target",	target_name);
 			return	Plugin_Handled;
 		}
 		case	2:	{
@@ -151,6 +192,7 @@ Action	ForceName(int client,	int args)	{
 				int	target	=	target_list[i];
 				SetClientCookie(target,	force_name_storage,	arg2);
 				SetClientName(target,	arg2);
+				EraseName[target]	=	true;
 			}
 			
 			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_forcename_set",	target_name,	arg2);
@@ -166,16 +208,13 @@ Action	ForceName(int client,	int args)	{
 Action	ClearName(int client,	int args)	{		
 	switch(args)	{
 		case	0:	{
-			char	name[256];
-			GetClientInfo(client,	"name",	name,	sizeof(name));
-			SetClientName(client,	name);
-			
 			SetClientCookie(client,	name_storage,	"");
+			EraseName[client]	=	true;
 			
 			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_clearname_reset");
 			return	Plugin_Handled;
 		}
-		case	2:	{
+		case	1:	{
 			char	arg1			[256],
 					target_name		[MAX_TARGET_LENGTH];
 			int		target_list		[MAXPLAYERS],
@@ -200,13 +239,9 @@ Action	ClearName(int client,	int args)	{
 			for(int i = 0; i < target_count; i++)	{
 				int	target	=	target_list[i];
 				SetClientCookie(target,	name_storage,	"");
-				
-				char	cookie[256];
-				GetClientCookie(target,	name_storage,	cookie,	sizeof(cookie));
-				SetClientName(target,	cookie);
 			}
 	
-			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_clearname_set",	target_name);
+			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_clearname_reset_target",	target_name);
 			return	Plugin_Handled;
 		}
 		default:	{
