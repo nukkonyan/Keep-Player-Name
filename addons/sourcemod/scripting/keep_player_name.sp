@@ -73,7 +73,7 @@ public	void	OnClientDisconnect(int client)	{
 }
 
 public	void	OnClientSettingsChanged(int client)	{
-	if(IsClientInGame(client))	{
+	if(IsClientInGame(client) && !IsFakeClient(client))	{
 		if(GetClientTeam(client) > 0)	{
 			setcookies(client,	true);
 		}
