@@ -11,15 +11,9 @@
 		"en"		"Forced name of {1} to {2}"
 	}
 	
-	"keep_player_name_forcename_usage_remove"
+	"keep_player_name_forcename_reset"
 	{
-		"en"		"Usage: sm_removeforcename <#userid|target name>"
-	}
-	
-	"keep_player_name_forcename_set_remove"
-	{
-		"#format"	"{1:s}"
-		"en"		"You've reset the name for {1}"
+		"en"		"You've reset the name for yourself"
 	}
 	
 	"keep_player_name_clearname_usage"
@@ -31,5 +25,10 @@
 	{
 		"#format"	"{1:s}"
 		"en"		"Cleared the kept player name storage for {1}"
+	}
+	
+	"keep_player_name_clearname_reset"
+	{
+		"en"		"Cleared the kept player name storage for yourself"
 	}
 }
