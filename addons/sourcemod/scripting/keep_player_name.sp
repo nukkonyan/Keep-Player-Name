@@ -4,7 +4,6 @@
 
 #pragma		semicolon	1
 #pragma		newdecls	required
-#pragma		dynamic		131072 
 
 Handle	name_storage,
 		force_name_storage;
@@ -13,7 +12,7 @@ public	Plugin	myinfo	=	{
 	name		=	"[ANY] Keep Player Name",
 	author		=	"Tk /id/Teamkiller324",
 	description	=	"Stores the player name to make sure player stays within the same name",
-	version		=	"1.1.0",
+	version		=	"1.1.1",
 	url			=	"https://steamcommunity.com/id/Teamkiller324"
 }
 
@@ -34,7 +33,7 @@ public	void	OnPluginStart()	{
 		if(!IsValidClient(i))
 			return;
 		if(IsClientInGame(i))
-			cookies(i);
+			setcookies(i,	true);
 	}
 }
 
@@ -62,38 +61,48 @@ Action	suppress_NameChange(UserMsg msg_id,	Handle bf,	const players[],	int playe
 }
 
 public	void	OnClientCookiesCached(int client)	{
-	cookies(client);
+	setcookies(client,	true);
 }
 
 public	void	OnClientPutInServer(int client)	{
-	cookies(client);
+	setcookies(client,	true);
 }
 
 public	void	OnClientDisconnect(int client)	{
-	cookies(client);
+	setcookies(client,	false);
 }
 
 public	void	OnClientSettingsChanged(int client)	{
-	cookies(client);	
+	if(IsClientInGame(client))	{
+		if(GetClientTeam(client) > 0)	{
+			setcookies(client,	true);
+		}
+	}
 }
 
-void	cookies(int client)	{
+void	setcookies(int client,	bool connect)	{
 	if(IsValidClient(client))	{
 		char	cookie_storedname[256],
-				cookie_forcedname[256];
+				cookie_forcedname[256],
+				clientname[256];
 		GetClientCookie(client,	name_storage,		cookie_storedname,	sizeof(cookie_storedname));
 		GetClientCookie(client,	force_name_storage,	cookie_forcedname,	sizeof(cookie_forcedname));
+		GetClientInfo(client,	"name",	clientname,	sizeof(clientname));
 		
-		if(StrEqual(cookie_forcedname,	""))	{
+		if(StrEqual(cookie_storedname,	""))
+			SetClientCookie(client,	name_storage,	clientname);
+
+		if(!StrEqual(cookie_forcedname,	""))	{
+			if(connect)
+				SetClientName(client,	cookie_forcedname);
+		}
+		else if(StrEqual(cookie_forcedname,	""))	{
 			if(!StrEqual(cookie_storedname,	""))	{
-				if(IsClientInGame(client) && IsValidTeam(client))
+				if(connect)
 					SetClientName(client,	cookie_storedname);
 			}
 		}
-		else if(!StrEqual(cookie_forcedname,	""))	{
-			if(IsClientInGame(client) && IsValidTeam(client))
-				SetClientName(client,	cookie_forcedname);
-		}
+
 	}
 }
 
@@ -209,12 +218,6 @@ stock	bool	IsValidClient(int client)	{
 	if(client	>	MaxClients)
 		return	false;
 	if(IsFakeClient(client))
-		return	false;
-	return	true;
-}
-
-stock	bool	IsValidTeam(int client)	{
-	if(GetClientTeam(client)	<	1)
 		return	false;
 	return	true;
 }
