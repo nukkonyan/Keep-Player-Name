@@ -72,13 +72,14 @@ public	void	OnClientDisconnect(int client)	{
 	setcookies(client,	false);
 }
 
-public	void	OnClientSettingsChanged(int client)	{
-	if(IsClientInGame(client) && !IsFakeClient(client))	{
-		if(GetClientTeam(client) > 0)	{
-			setcookies(client,	true);
-		}
-	}
-}
+//Disabled due to not functioning correctly and spamming errors instead
+//public	void	OnClientSettingsChanged(int client)	{
+//	if(IsClientInGame(client) && !IsFakeClient(client))	{
+//		if(GetClientTeam(client) > 0)	{
+//			setcookies(client,	true);
+//		}
+//	}
+//}
 
 void	setcookies(int client,	bool connect)	{
 	if(IsValidClient(client))	{
