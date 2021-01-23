@@ -3,38 +3,45 @@
 	"keep_player_name_forcename_usage"
 	{
 		"en"		"Usage: sm_forcename <#userid|target name> <new name>"
+		"hu"		"Használat: sm_forcename <#userid|cél név> <új név>"
 	}
 	
 	"keep_player_name_forcename_set"
 	{
 		"#format"	"{1:s},{2:s}"
 		"en"		"Forced name of {1} to {2}"
+		"hu"		"Kényszerített neve {1} ról {2} lett"
 	}
 	
 	"keep_player_name_forcename_reset"
 	{
 		"en"		"You've reset the name for yourself"
+		"hu"		"Visszaállítottad a saját nevedet"
 	}
 	
 	"keep_player_name_forcename_reset_target"
 	{
 		"#format"	"{1:s}"
 		"en"		"You've reset the name for {1}"
+		"hu"		"Visszaállítottad a nevét neki {1}"
 	}
 	
 	"keep_player_name_clearname_usage"
 	{
 		"en"		"Usage: sm_clearname <#userid|target name>"
+		"hu"		"Használat: sm_clearname <#userid|cél név>"
 	}
 	
 	"keep_player_name_clearname_reset"
 	{
 		"en"		"Cleared the kept player name storage for yourself"
+		"hu"		"A tartsd játékos neved tárolóját visszaállítottad saját magadnak"
 	}
 	
 	"keep_player_name_clearname_reset_target"
 	{
 		"#format"	"{1:s}"
 		"en"		"Cleared the kept player name storage for {1}"
+		"hu"		"A tartsd játékos neved tárolóját visszaállítottad neki {1}"
 	}
 }
