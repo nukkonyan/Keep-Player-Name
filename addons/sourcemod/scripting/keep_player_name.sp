@@ -5,8 +5,8 @@
 #pragma		semicolon	1
 #pragma		newdecls	required
 
-Handle	name_storage,
-		force_name_storage;
+static	Cookie	name_storage,
+				force_name_storage;
 		
 bool	EraseName[MAXPLAYERS+1]	=	false;
 
@@ -14,7 +14,7 @@ public	Plugin	myinfo	=	{
 	name		=	"[ANY] Keep Player Name",
 	author		=	"Tk /id/Teamkiller324",
 	description	=	"Stores the player name to make sure player stays within the same name",
-	version		=	"1.1.3",
+	version		=	"1.1.4",
 	url			=	"https://steamcommunity.com/id/Teamkiller324"
 }
 
@@ -22,8 +22,8 @@ public	void	OnPluginStart()	{
 	LoadTranslations("common.phrases");
 	LoadTranslations("keep_player_name.phrases");
 	
-	name_storage		=	RegClientCookie("keep_player_name",				"Keeps The Players Name",	CookieAccess_Private);
-	force_name_storage	=	RegClientCookie("keep_player_name_forcename",	"The clients forced name",	CookieAccess_Private);
+	name_storage		=	new	Cookie("keep_player_name",				"Keeps The Players Name",	CookieAccess_Private);
+	force_name_storage	=	new	Cookie("keep_player_name_forcename",	"The clients forced name",	CookieAccess_Private);
 	
 	HookUserMessage(GetUserMessageId("SayText2"),	suppress_NameChange,	true);
 	
@@ -34,8 +34,8 @@ public	void	OnPluginStart()	{
 	for(int i = 0; i < MaxClients; i++)	{
 		if(!IsValidClient(i))
 			return;
-		if(IsClientInGame(i))
-			setcookies(i,	true);
+		
+		setcookies(i,	true);
 	}
 }
 
@@ -64,20 +64,17 @@ Action	suppress_NameChange(UserMsg msg_id,	Handle bf,	const players[],	int playe
 
 public	void	OnClientCookiesCached(int client)	{
 	setcookies(client,	true);
-	if(!IsFakeClient(client))
-		EraseName[client]	=	false;
+	EraseName[client]	=	false;
 }
 
 public	void	OnClientPutInServer(int client)	{
 	setcookies(client,	true);
-	if(!IsFakeClient(client) && IsClientInGame(client))
-		EraseName[client]	=	false;
+	EraseName[client]	=	false;
 }
 
 public	void	OnClientDisconnect(int client)	{
 	setcookies(client,	false);
-	if(!IsFakeClient(client))
-		EraseName[client]	=	false;
+	EraseName[client]	=	false;
 }
 
 public	void	OnClientSettingsChanged(int client)	{
@@ -85,10 +82,8 @@ public	void	OnClientSettingsChanged(int client)	{
 }
 
 Action	ClientSettingsChangeTimer(Handle timer,	any client)	{
-	if(IsClientInGame(client) && !IsFakeClient(client))	{
-		if(GetClientTeam(client) > 0)	{
-			setcookies(client,	true);
-		}
+	if(IsValidClient(client))	{
+		setcookies(client,	true);
 	}
 }
 
@@ -97,13 +92,13 @@ void	setcookies(int client,	bool connect)	{
 		char	cookie_storedname[256],
 				cookie_forcedname[256],
 				clientname[256];
-		GetClientCookie(client,	name_storage,		cookie_storedname,	sizeof(cookie_storedname));
-		GetClientCookie(client,	force_name_storage,	cookie_forcedname,	sizeof(cookie_forcedname));
+		name_storage.Get(client,		cookie_storedname,	sizeof(cookie_storedname));
+		force_name_storage.Get(client,	cookie_forcedname,	sizeof(cookie_forcedname));
 		GetClientInfo(client,	"name",	clientname,	sizeof(clientname));
 		
 		if(StrEqual(cookie_storedname,	""))	{
 			if(EraseName[client] == false)
-				SetClientCookie(client,	name_storage,	clientname);
+				name_storage.Set(client,	clientname);
 		}
 
 		if(!StrEqual(cookie_forcedname,	""))	{
@@ -124,10 +119,10 @@ Action	ForceName(int client,	int args)	{
 	switch(args)	{
 		case	0:	{
 			char	name[256];
-			GetClientCookie(client,	name_storage,	name,	sizeof(name));
-			SetClientName(client,	name);
+			name_storage.Get(client,	name,	sizeof(name));
+			SetClientName(client,		name);
 			
-			SetClientCookie(client,	force_name_storage,	"");
+			force_name_storage.Set(client,	"");
 			
 			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_forcename_reset");
 			return	Plugin_Handled;
@@ -157,7 +152,7 @@ Action	ForceName(int client,	int args)	{
 			
 			for(int i = 0; i < target_count; i++)	{
 				int	target	=	target_list[i];
-				SetClientCookie(target,	force_name_storage,	"");
+				force_name_storage.Set(target,	"");
 			}
 			
 			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_forcename_reset_target",	target_name);
@@ -190,7 +185,7 @@ Action	ForceName(int client,	int args)	{
 			
 			for(int i = 0; i < target_count; i++)	{
 				int	target	=	target_list[i];
-				SetClientCookie(target,	force_name_storage,	arg2);
+				force_name_storage.Set(target,	arg2);
 				SetClientName(target,	arg2);
 				EraseName[target]	=	true;
 			}
@@ -255,6 +250,8 @@ stock	bool	IsValidClient(int client)	{
 	if(client	<	1)
 		return	false;
 	if(client	>	MaxClients)
+		return	false;
+	if(!IsClientInGame(client))
 		return	false;
 	if(IsFakeClient(client))
 		return	false;
