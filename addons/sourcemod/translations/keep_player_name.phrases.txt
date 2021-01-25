@@ -43,7 +43,7 @@
 		"en"		"Cleared the kept player name storage for {1}"
 	}
 	
-	"clearname_reset_error_target"
+	"clearname_reset_target_error"
 	{
 		"#format"	"{1:s}"
 		"en"		"Target {1} must not have a forced name"

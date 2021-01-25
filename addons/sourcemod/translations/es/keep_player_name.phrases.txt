@@ -13,13 +13,13 @@
 	
 	"forcename_reset"
 	{
-		"es"		"Te has restablecido el nombre"
+		"es"		"Te has forzado el nombre"
 	}
 	
 	"forcename_reset_target"
 	{
 		"#format"	"{1:s}"
-		"es"		"Has restablecido el nombre de {1}"
+		"es"		"Has forzado el nombre de {1}"
 	}
 	
 	"clearname_usage"

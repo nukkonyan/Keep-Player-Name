@@ -43,7 +43,7 @@
 		"hu"		"A tartsd játékos neved tárolóját visszaállítottad neki {1}"
 	}
 	
-	"clearname_reset_error_target"
+	"clearname_reset_target_error"
 	{
 		"#format"	"{1:s}"
 		"hu"		"Target {1} must not have a forced name"

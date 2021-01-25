@@ -250,7 +250,7 @@ Action	ClearName(int client,	int args)	{
 					return	Plugin_Handled;
 				}
 				
-				SetClientCookie(target,	name_storage,	"");
+				name_storage.Set(target,	"");
 			}
 	
 			CPrintToChat(client,	"%s %t",	plugin_tag,	"clearname_reset_target",	target_name);
