@@ -43,7 +43,7 @@
 		"es"		"Has limpiado el nombre almacenado de {1}"
 	}
 	
-	"clearname_reset_error_target"
+	"clearname_reset_target_error"
 	{
 		"#format"	"{1:s}"
 		"es"		"{1} no tiene un nombre forzado"
