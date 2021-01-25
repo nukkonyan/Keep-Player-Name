@@ -1,40 +1,51 @@
 "Phrases"
 {
-	"keep_player_name_forcename_usage"
+	"forcename_usage"
 	{
 		"sv"		"Användning: sm_forcename <#userid|mål namn> <nytt namn>"
 	}
 	
-	"keep_player_name_forcename_set"
+	"forcename_set"
 	{
 		"#format"	"{1:s},{2:s}"
 		"sv"		"Tvingade namn {2} för {1}"
 	}
 	
-	"keep_player_name_forcename_reset"
+	"forcename_reset"
 	{
 		"sv"		"Du har återställt namnet för dig själv"
 	}
 	
-	"keep_player_name_forcename_reset_target"
+	"forcename_reset_target"
 	{
 		"#format"	"{1:s}"
 		"sv"		"Du har återställt namnet för {1}"
 	}
 	
-	"keep_player_name_clearname_usage"
+	"clearname_usage"
 	{
 		"sv"		"Användning: sm_clearname <#userid|mål namn>"
 	}
 	
-	"keep_player_name_clearname_reset"
+	"clearname_reset"
 	{
 		"sv"		"Rensade det sparade spelar namnet för dig själv"
 	}
 	
-	"keep_player_name_clearname_reset_target"
+	"clearname_reset_error"
+	{
+		"sv"		"Du måste inte ha ett tvingat namn"
+	}
+	
+	"clearname_reset_target"
 	{
 		"#format"	"{1:s}"
 		"sv"		"Rensade det sparade spelar namnet för {1}"
+	}
+	
+	"clearname_reset_target_error"
+	{
+		"#format"	"{1:s}"
+		"sv"		"{1} Måste inte ha ett tvingat namn"
 	}
 }

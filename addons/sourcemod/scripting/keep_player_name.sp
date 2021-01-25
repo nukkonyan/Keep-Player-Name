@@ -5,6 +5,8 @@
 #pragma		semicolon	1
 #pragma		newdecls	required
 
+#define		plugin_tag	"[Keep Players Name]{default}"
+
 static	Cookie	name_storage,
 				force_name_storage;
 		
@@ -14,7 +16,7 @@ public	Plugin	myinfo	=	{
 	name		=	"[ANY] Keep Player Name",
 	author		=	"Tk /id/Teamkiller324",
 	description	=	"Stores the player name to make sure player stays within the same name",
-	version		=	"1.1.4",
+	version		=	"1.1.5",
 	url			=	"https://steamcommunity.com/id/Teamkiller324"
 }
 
@@ -22,8 +24,8 @@ public	void	OnPluginStart()	{
 	LoadTranslations("common.phrases");
 	LoadTranslations("keep_player_name.phrases");
 	
-	name_storage		=	new	Cookie("keep_player_name",				"Keeps The Players Name",	CookieAccess_Private);
-	force_name_storage	=	new	Cookie("keep_player_name_forcename",	"The clients forced name",	CookieAccess_Private);
+	name_storage		=	new	Cookie("keep_player_name",				"Keeps The Clients Name",	CookieAccess_Private);
+	force_name_storage	=	new	Cookie("keep_player_name_forcename",	"The Clients Forced Name",	CookieAccess_Private);
 	
 	HookUserMessage(GetUserMessageId("SayText2"),	suppress_NameChange,	true);
 	
@@ -49,7 +51,7 @@ Action	suppress_NameChange(UserMsg msg_id,	Handle bf,	const players[],	int playe
 	if(GetUserMessageType() == UM_Protobuf)	{
 		PbReadString(bf, "msg_name", buffer, sizeof(buffer));
 		if(StrContains(buffer, "Name_Change",	false)	!=	-1)
-			return Plugin_Handled;
+			return	Plugin_Handled;
 	}
 	else	{
 		BfReadChar(bf);
@@ -57,9 +59,9 @@ Action	suppress_NameChange(UserMsg msg_id,	Handle bf,	const players[],	int playe
 		BfReadString(bf, buffer, sizeof(buffer));
 
 		if(StrContains(buffer, "Name_Change",	false)	!=	-1)
-			return Plugin_Handled;
+			return	Plugin_Handled;
 	}
-	return Plugin_Continue;
+	return	Plugin_Continue;
 }
 
 public	void	OnClientCookiesCached(int client)	{
@@ -124,7 +126,7 @@ Action	ForceName(int client,	int args)	{
 			
 			force_name_storage.Set(client,	"");
 			
-			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_forcename_reset");
+			CPrintToChat(client,	"%s %t",	plugin_tag,	"forcename_reset");
 			return	Plugin_Handled;
 		}
 		case	1:	{
@@ -155,7 +157,7 @@ Action	ForceName(int client,	int args)	{
 				force_name_storage.Set(target,	"");
 			}
 			
-			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_forcename_reset_target",	target_name);
+			CPrintToChat(client,	"%s %t",	plugin_tag,	"forcename_reset_target",	target_name);
 			return	Plugin_Handled;
 		}
 		case	2:	{
@@ -190,11 +192,11 @@ Action	ForceName(int client,	int args)	{
 				EraseName[target]	=	true;
 			}
 			
-			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_forcename_set",	target_name,	arg2);
+			CPrintToChat(client,	"%s %t",	plugin_tag,	"forcename_set",	target_name,	arg2);
 			return	Plugin_Handled;
 		}
 		default:	{
-			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_forcename_usage");
+			CPrintToChat(client,	"%s %t",	plugin_tag,	"forcename_usage");
 			return	Plugin_Handled;
 		}
 	}
@@ -206,7 +208,14 @@ Action	ClearName(int client,	int args)	{
 			SetClientCookie(client,	name_storage,	"");
 			EraseName[client]	=	true;
 			
-			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_clearname_reset");
+			char	getforcedname[256];
+			force_name_storage.Get(client,	getforcedname,	sizeof(getforcedname));
+			if(!StrEqual(getforcedname,	""))	{
+				CPrintToChat(client,	"%s %t",	plugin_tag,	"clearname_reset_error");
+				return	Plugin_Handled;
+			}
+			
+			CPrintToChat(client,	"%s %t",		plugin_tag,	"clearname_reset");
 			return	Plugin_Handled;
 		}
 		case	1:	{
@@ -233,14 +242,22 @@ Action	ClearName(int client,	int args)	{
 			
 			for(int i = 0; i < target_count; i++)	{
 				int	target	=	target_list[i];
+				
+				char	getforcedname[256];
+				force_name_storage.Get(target,	getforcedname,	sizeof(getforcedname));
+				if(!StrEqual(getforcedname,	""))	{
+					CPrintToChat(client,	"%s %t",	plugin_tag,	"clearname_reset_target_error",	target_name);
+					return	Plugin_Handled;
+				}
+				
 				SetClientCookie(target,	name_storage,	"");
 			}
 	
-			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_clearname_reset_target",	target_name);
+			CPrintToChat(client,	"%s %t",	plugin_tag,	"clearname_reset_target",	target_name);
 			return	Plugin_Handled;
 		}
 		default:	{
-			CPrintToChat(client,	"[Keep Player Name] %t",	"keep_player_name_clearname_usage");
+			CPrintToChat(client,	"%s %t",	plugin_tag,	"clearname_usage");
 			return	Plugin_Handled;
 		}
 	}

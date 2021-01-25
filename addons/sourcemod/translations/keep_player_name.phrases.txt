@@ -1,40 +1,51 @@
 "Phrases"
 {
-	"keep_player_name_forcename_usage"
+	"forcename_usage"
 	{
 		"en"		"Usage: sm_forcename <#userid|target name> <new name>"
 	}
 	
-	"keep_player_name_forcename_set"
+	"forcename_set"
 	{
 		"#format"	"{1:s},{2:s}"
 		"en"		"Forced name of {1} to {2}"
 	}
 	
-	"keep_player_name_forcename_reset"
+	"forcename_reset"
 	{
 		"en"		"You've reset the name for yourself"
 	}
 	
-	"keep_player_name_forcename_reset_target"
+	"forcename_reset_target"
 	{
 		"#format"	"{1:s}"
 		"en"		"You've reset the name for {1}"
 	}
 	
-	"keep_player_name_clearname_usage"
+	"clearname_usage"
 	{
 		"en"		"Usage: sm_clearname <#userid|target name>"
 	}
 	
-	"keep_player_name_clearname_reset"
+	"clearname_reset"
 	{
 		"en"		"Cleared the kept player name storage for yourself"
 	}
 	
-	"keep_player_name_clearname_reset_target"
+	"clearname_reset_error"
+	{
+		"en"		"You must not have a forced name"
+	}
+	
+	"clearname_reset_target"
 	{
 		"#format"	"{1:s}"
 		"en"		"Cleared the kept player name storage for {1}"
+	}
+	
+	"clearname_reset_error_target"
+	{
+		"#format"	"{1:s}"
+		"en"		"Target {1} must not have a forced name"
 	}
 }
