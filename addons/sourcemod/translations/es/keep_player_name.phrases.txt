@@ -1,0 +1,51 @@
+"Phrases"
+{
+	"forcename_usage"
+	{
+		"es"		"Uso: sm_forcename <#userid|target name> <nuevo nombre>"
+	}
+	
+	"forcename_set"
+	{
+		"#format"	"{1:s},{2:s}"
+		"es"		"El nombre de {1} ha sido forzado a {2}"
+	}
+	
+	"forcename_reset"
+	{
+		"es"		"Te has restablecido el nombre"
+	}
+	
+	"forcename_reset_target"
+	{
+		"#format"	"{1:s}"
+		"es"		"Has restablecido el nombre de {1}"
+	}
+	
+	"clearname_usage"
+	{
+		"es"		"Uso: sm_clearname <#userid|target name>"
+	}
+	
+	"clearname_reset"
+	{
+		"es"		"Te has limpiado el nombre almacenado"
+	}
+	
+	"clearname_reset_error"
+	{
+		"es"		"No tienes un nombre forzado"
+	}
+	
+	"clearname_reset_target"
+	{
+		"#format"	"{1:s}"
+		"es"		"Has limpiado el nombre almacenado de {1}"
+	}
+	
+	"clearname_reset_error_target"
+	{
+		"#format"	"{1:s}"
+		"es"		"{1} no tiene un nombre forzado"
+	}
+}
